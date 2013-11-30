@@ -6,17 +6,4 @@
 		$b=md5($b);  			//执行MD5散列
 		return $b;  			
 	}
-		
-	function check_input($value)
-	{
-		// 去除斜杠
-		if (get_magic_quotes_gpc())
-		{
-			$value = stripslashes($value);
-		}
-		
-		// 防sql注入
-		$value = mysql_real_escape_string($value);
-		return $value;
-	}	
 ?>

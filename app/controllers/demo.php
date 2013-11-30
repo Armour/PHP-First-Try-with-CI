@@ -1,18 +1,17 @@
 <?php
 	
-	error_reporting(E_ALL ^ E_NOTICE); 
-
-	class Gc extends CI_Controller 
+	class Demo extends CI_Controller 
 	{
 		public function __construct()
 		{
 			parent::__construct();
-			$this->load->model('gc_model');
+			$this->load->model('demo_model');
 		}
 
+		//index界面
 		public function index()
 		{
-			$this->load->view('gc/index');
+			$this->load->view('demo/index');
 		}
 
 		public function register()
@@ -22,20 +21,23 @@
 
 			//储存登录的用户名
 			$_SESSION["name"] = '';
+			$_POST["name"]='';
 
+			//各种载入...
 			$this->load->database();
-			
 			$this->load->helper('form');
 			$this->load->library('form_validation');
 
+			//验证是否没有填写重要信息
 			$this->form_validation->set_rules('name','用户名','required');
 			$this->form_validation->set_rules('psw','密码','required');
 			if ($this->form_validation->run() == FALSE)
 			{
-				$this->load->view('gc/register');
+				$this->load->view('demo/register');
 			} 
 				else
 			{
+				//防SQL注入
 				$name = check_input($_POST["name"]);
 				$realname = check_input($_POST["realname"]);
 				$sex = check_input($_POST["sex"]);
@@ -46,15 +48,16 @@
 				$home= check_input($_POST["home"]);
 				$psw = hashit($name,$_POST["psw"]);
 				
+				//判断是否符合注册要求
 				if ($this->gc_model->find_it($name) == 1)
 				{
 					echo "<script language='JavaScript'> alert('用户名已经存在');</script>";
-					$this->load->view('gc/register');
+					$this->load->view('demo/register');
 				} 
 					else if ($_SESSION["checkcode"] != $_POST["code"])
 					{
 						echo "<script language='JavaScript'> alert('验证码不正确');</script>";	
-						$this->load->view('gc/register');
+						$this->load->view('demo/register');
 					} 
 						else
 					{
@@ -62,8 +65,6 @@
 						?>
 						<h3><a href="login"> 注册成功！轻戳进入登录界面 ~ </a></h3>
 						<?php
-						//$_SESSION["name"] = $name;
-						//$this->load->view('gc/login');
 					}
 			}
 		}
@@ -75,32 +76,35 @@
 
 			//储存登录的用户名
 			$_SESSION["name"] = '';
+			$_POST["name"]='';
 
+			//各种载入...
 			$this->load->database();
-			
 			$this->load->helper('form');
 			$this->load->library('form_validation');
 
 			//防sql注入
 			$name = check_input($_POST["name"]);
 
+			//验证是否没有填写重要信息
 			$this->form_validation->set_rules('name','用户名','required');
 			$this->form_validation->set_rules('psw','密码','required');
 			if ($this->form_validation->run() == FALSE)
 			{
-				$this->load->view('gc/login');
+				$this->load->view('demo/login');
 			} 
 				else
+				//判断是否符合登录要求
 				if ($_SESSION["checkcode"] != $_POST["code"])
 				{
 					echo "<script language='JavaScript'> alert('验证码不正确');</script>";	
-					$this->load->view('gc/login');	
+					$this->load->view('demo/login');	
 				}
 					else
 					if ($this->gc_model->find_it($name) == 0)
 					{
 						echo "<script type='text/javascript'>  alert('此用户名不存在');</script>";
-						$this->load->view('gc/login');
+						$this->load->view('demo/login');
 					}
 						else
 					{
@@ -110,37 +114,17 @@
 						if ($this->gc_model->check_it($name,$psw) == 1)
 						{
 							$_SESSION['name'] = $name;
-							$this->load->view('gc/qsc');
+							$this->load->view('gdemo/qsc');
 						}
 							else
 						{
 							$_SESSION['name'] = '';
 							echo "<script type='text/javascript'> alert('密码错误');</script>";
-							$this->load->view('gc/login');
+							$this->load->view('demo/login');
 						}
 					}
 		}
 	}
 
-	function hashit($c,$a) 
-	{
-		$salt="GC_ZXCVBN".$c;  	//salt值
-		$b=$a.$salt;  			//把密码和salt连接
-		$b=md5($b);  			//执行MD5散列
-		return $b;  			
-	}
-		
-	function check_input($value)
-	{
-		// 去除斜杠
-		if (get_magic_quotes_gpc())
-		{
-			$value = stripslashes($value);
-		}
-		
-		// 防sql注入
-		$value = mysql_real_escape_string($value);
-		return $value;
-	}	
-
+	include_once "function.php";
 ?>

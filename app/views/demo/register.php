@@ -1,14 +1,12 @@
 <html>
 <head>
-	<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-	<script language="javascript" src="http://localhost/CI/sth/register_check.js"></script>
-	<script language="javascript">	function RefreshCode(obj){ obj.src = "http://localhost/CI/sth/graph.php?code=" + Math.random(); } </script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+	<script src="http://localhost/CI/sth/register_check.js"></script>
+	<script> function RefreshCode(obj){ obj.src = "http://localhost/CI/sth/graph.php?code=" + Math.random(); } </script>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 
 <body>
-
-	<?php echo validation_errors(); ?>
 
 <form name="reg_user" method="post" action="register">
 <table width="900" height="270" border="1" align="center" cellpadding="2" cellspacing="1" bordercolor="#FFFFFF" bgcolor="#999999">

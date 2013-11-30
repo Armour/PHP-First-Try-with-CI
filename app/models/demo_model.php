@@ -1,6 +1,6 @@
 <?php
 
-	class Gc_model extends CI_Model
+	class Demo_model extends CI_Model
 	{
 		function __construct()
 		{
@@ -11,18 +11,6 @@
 		{
 			$data = array
 			(
-			/*
-				'name'     =>$this->input->post('name',TRUE),
-				'psw'      =>$this->input->post('psw',TRUE),
-				'realname' =>$this->input->post('realname',TRUE),
-				'sex'      =>$this->input->post('sex',TRUE),
-				'IDcard'   =>$this->input->post('IDcard',TRUE),
-				'gtel'     =>$this->input->post('gtel',TRUE),
-				'mtel'     =>$this->input->post('mtel',TRUE),
-				'email'    =>$this->input->post('email',TRUE),
-				'home'     =>$this->input->post('home',TRUE)
-			
-			*/
 				'name'     =>$name,
 				'psw'      =>$psw,
 				'realname' =>$realname,
@@ -46,7 +34,6 @@
 			} else 
 				return 0;
 		}
-
 
 		function check_it($name,$psw)
 		{
